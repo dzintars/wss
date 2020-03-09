@@ -10,7 +10,7 @@ func main() {
 	var addr = flag.String("addr", "8080", "The addr of the application.")
 	flag.Parse() // parse the flags
 
-	r := newRoom()
+	r := newChannel()
 
 	http.Handle("/ws", r)
 

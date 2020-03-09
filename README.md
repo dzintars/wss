@@ -1,3 +1,7 @@
+# WebSockets
+
+My attempt to create Slack like Teams/Channels architecture.
+
 https://github.com/dzintars/srp/blob/76194cf379eafa3822ba88e3155fde55a6be8c66/clients/router/static/src/js/redux/actions/messages.js
 
 https://www.youtube.com/watch?v=norUcMSJRtQ
@@ -37,3 +41,9 @@ Every user can be part of multiple Organization Channels. For example, he can re
 Every user can be part of multiple Hubs. For example he can receive System wide events (System itself is an Organization) and Organization wide events.
 
 Main target of this organization is to reduce network traffic and broadcast/receive only what is really required for communications. There is no need to broadcast messages if there is no relative/authorized consumer.
+
+## Articles
+
+https://www.hascode.com/2016/10/writing-a-websocket-chat-in-go/comment-page-1/#comment-7064
+
+## GitHub

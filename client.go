@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -11,9 +14,17 @@ type client struct {
 	// socket is the web socket for this client.
 	socket *websocket.Conn
 	//send is a channel on which messages are sent.
-	send chan []byte
-	// room is the room this client is chatting in
-	room *room
+	send chan *Event
+	// channel is the channel this client is currently joined
+	channel *channel
+}
+
+// Event represents an event to be exchanged between parties
+type Event struct {
+  // Type represents an action type
+  Type string `json:"type,omitempty"`
+  // Payload holds actual Event data
+	Payload string `json:"payload,omitempty"`
 }
 
 func (c *client) read() {
@@ -22,16 +33,25 @@ func (c *client) read() {
 		_, msg, err := c.socket.ReadMessage()
 		if err != nil {
 			return
-		}
-		c.room.forward <- msg
+    }
+    var e Event
+    if err := json.Unmarshal(msg, &e); err != nil {
+        panic(err)
+    }
+		c.channel.forward <- &e
 	}
 }
 
 func (c *client) write() {
 	defer c.socket.Close()
-	for msg := range c.send {
-		err := c.socket.WriteMessage(websocket.TextMessage, msg)
-		if err != nil {
+	for event := range c.send {
+    evt, err := json.Marshal(event)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+		err1 := c.socket.WriteMessage(websocket.TextMessage, evt)
+		if err1 != nil {
 			return
 		}
 	}
