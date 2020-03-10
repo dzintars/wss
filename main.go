@@ -12,7 +12,7 @@ func main() {
 
 	r := newChannel()
 
-	http.Handle("/ws", r)
+	http.Handle("/", r)
 
 	// get the room going
 	go r.run()

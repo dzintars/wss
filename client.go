@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/gorilla/websocket"
 )
@@ -19,37 +20,87 @@ type client struct {
 	channel *channel
 }
 
-// Payload represents actual data payload carried by Event
-type Payload struct {
-	User        string `json:"user,omitempty"`
-	Data        struct {} `json:"data,omitempty"`
-}
+//go:generate jsonenums -type=Kind
+
+type Kind int
+
+const (
+  UI_LAUNCHER_DISPLAY Kind = iota
+  UI_LAUNCHER_HIDE
+  ERROR
+)
 
 // https://eagain.net/articles/go-dynamic-json/
 
-// Event represents an event to be exchanged between parties
+// Event represents an event container to be exchanged between parties
 type Event struct {
-  // Type represents an action type
-  Type string `json:"type,omitempty"`
-  // Payload holds actual Event data
-	Payload Payload `json:"payload,omitempty"`
+	// Type represents an action type
+	Type Kind `json:"type"` // ISSUE: https://github.com/campoy/jsonenums/issues/28#issue-299906485
+	// User represents mandatory field required for all events exchanged
+	User string `json:"user,omitempty"`
+	// Payload holds actual Event data
+	Payload interface{} `json:"payload,omitempty"`
 }
+
+// UILauncherDisplayPayload represents actual data payload carried by Event
+type UILauncherDisplayPayload struct {
+	Stakeholder string `json:"stakeholder,omitempty"`
+}
+
+// UILauncherHidePayload represents actual data payload carried by Event
+type UILauncherHidePayload struct {
+	Stakeholder string `json:"stakeholder,omitempty"`
+}
+
+// ErrorPayload represents actual data payload carried by Event
+type ErrorPayload struct {
+	Message string `json:"message,omitempty"`
+}
+
+var kindHandlers = map[Kind]func() interface{}{
+	UI_LAUNCHER_DISPLAY: func() interface{} { return &UILauncherDisplayPayload{} },
+	UI_LAUNCHER_HIDE: func() interface{} { return &UILauncherHidePayload{} },
+	ERROR: func() interface{} { return &ErrorPayload{} },
+}
+
 
 func (c *client) read() {
 	defer c.socket.Close()
 	for {
+    // Read the message from the socket
 		_, msg, err := c.socket.ReadMessage()
 		if err != nil {
 			return
     }
-    fmt.Println("Pure event:", string(msg))
-    var e Event
-    // TODO: What if we receive an event which is not handled in server side?
-    if err := json.Unmarshal(msg, &e); err != nil {
-        panic(err)
+
+    // fmt.Println("Pure event:", string(msg))
+
+    var raw json.RawMessage
+    evt := Event{
+      Payload: &raw,
     }
-    fmt.Println("Event:", e)
-		c.channel.forward <- &e
+    if err := json.Unmarshal([]byte(msg), &evt); err != nil {
+      log.Fatal("Event:",err, msg)
+    }
+
+    m := kindHandlers[evt.Type]()
+    if err := json.Unmarshal(raw, m); err != nil {
+      // TODO: Reply with error message
+      er := Event{
+        Type: ERROR,
+        Payload: &ErrorPayload{
+          Message: "Unsupported action signature",
+        },
+      }
+      c.channel.forward <- &er
+      // log.Fatal("Payload:",err,raw)
+    }
+    switch m.(type) {
+    case *UILauncherDisplayPayload:
+      c.channel.forward <- &evt
+    case *UILauncherHidePayload:
+      c.channel.forward <- &evt
+    }
 	}
 }
 
