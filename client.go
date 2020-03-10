@@ -19,12 +19,20 @@ type client struct {
 	channel *channel
 }
 
+// Payload represents actual data payload carried by Event
+type Payload struct {
+	User        string `json:"user,omitempty"`
+	Data        struct {} `json:"data,omitempty"`
+}
+
+// https://eagain.net/articles/go-dynamic-json/
+
 // Event represents an event to be exchanged between parties
 type Event struct {
   // Type represents an action type
   Type string `json:"type,omitempty"`
   // Payload holds actual Event data
-	Payload string `json:"payload,omitempty"`
+	Payload Payload `json:"payload,omitempty"`
 }
 
 func (c *client) read() {
@@ -34,10 +42,13 @@ func (c *client) read() {
 		if err != nil {
 			return
     }
+    fmt.Println("Pure event:", string(msg))
     var e Event
+    // TODO: What if we receive an event which is not handled in server side?
     if err := json.Unmarshal(msg, &e); err != nil {
         panic(err)
     }
+    fmt.Println("Event:", e)
 		c.channel.forward <- &e
 	}
 }

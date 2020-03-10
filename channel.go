@@ -26,7 +26,7 @@ func (c *channel) run() {
 		case client := <-c.join:
 			// join - add client to the channel
       c.clients[client] = true
-      fmt.Println(c.clients)
+      fmt.Println("Clients:", c.clients)
 		case client := <-c.leave:
 			// leaving - remove client from the channel
       delete(c.clients, client)
