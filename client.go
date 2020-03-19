@@ -27,6 +27,8 @@ type Kind int
 const (
   UI_LAUNCHER_DISPLAY Kind = iota
   UI_LAUNCHER_HIDE
+  APPLICATION_GET
+  APPLICATION_GET_SUCCESS
   ERROR
 )
 
@@ -51,21 +53,28 @@ type UILauncherDisplayPayload struct {
 type UILauncherHidePayload struct {
 	Stakeholder string `json:"stakeholder,omitempty"`
 }
+// ApplicationGetPayload represents actual data payload carried by Event
+type ApplicationGetPayload struct {}
+// ApplicationGetSuccessPayload represents actual data payload carried by Event
+type ApplicationGetSuccessPayload *Applications
 
 // ErrorPayload represents actual data payload carried by Event
 type ErrorPayload struct {
-	Message string `json:"message,omitempty"`
+  Message string `json:"message,omitempty"`
+  Error string `json:"error,omitempty"`
 }
 
 var kindHandlers = map[Kind]func() interface{}{
 	UI_LAUNCHER_DISPLAY: func() interface{} { return &UILauncherDisplayPayload{} },
 	UI_LAUNCHER_HIDE: func() interface{} { return &UILauncherHidePayload{} },
-	ERROR: func() interface{} { return &ErrorPayload{} },
+	APPLICATION_GET: func() interface{} { return &ApplicationGetPayload{} },
+	// APPLICATION_GET_SUCCESS: func() interface{} { return &apps },
+	// ERROR: func() interface{} { return &ErrorPayload{} },
 }
 
-
 func (c *client) read() {
-	defer c.socket.Close()
+  defer c.socket.Close()
+
 	for {
     // Read the message from the socket
 		_, msg, err := c.socket.ReadMessage()
@@ -73,7 +82,7 @@ func (c *client) read() {
 			return
     }
 
-    // fmt.Println("Pure event:", string(msg))
+    fmt.Println("Pure event:", string(msg))
 
     var raw json.RawMessage
     evt := Event{
@@ -85,20 +94,30 @@ func (c *client) read() {
 
     m := kindHandlers[evt.Type]()
     if err := json.Unmarshal(raw, m); err != nil {
-      // TODO: Reply with error message
-      er := Event{
+      // TODO: Reply with error message if receive unhandled message type
+      e := Event{
         Type: ERROR,
         Payload: &ErrorPayload{
           Message: "Unsupported action signature",
+          // TODO: Should not send server side errors to the client (debug only)
+          Error: err.Error(), // Error as string
         },
       }
-      c.channel.forward <- &er
+      c.channel.forward <- &e
       // log.Fatal("Payload:",err,raw)
     }
     switch m.(type) {
     case *UILauncherDisplayPayload:
+      fmt.Println(apps)
       c.channel.forward <- &evt
     case *UILauncherHidePayload:
+      c.channel.forward <- &evt
+    case *ApplicationGetPayload:
+      c.channel.forward <- &Event{
+        Type: APPLICATION_GET_SUCCESS,
+        Payload: &apps,
+      }
+    case *ApplicationGetSuccessPayload:
       c.channel.forward <- &evt
     }
 	}

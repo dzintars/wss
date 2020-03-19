@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -26,13 +25,13 @@ func (c *channel) run() {
 		case client := <-c.join:
 			// join - add client to the channel
       c.clients[client] = true
-      fmt.Println("Clients:", c.clients)
+      // fmt.Println("Clients:", c.clients)
 		case client := <-c.leave:
 			// leaving - remove client from the channel
       delete(c.clients, client)
       // close the channel
 			close(client.send)
-      fmt.Println("Clients:", c.clients)
+      // fmt.Println("Clients:", c.clients)
     case event := <-c.forward:
       // send the event to the all clients in this channel
 			for client := range c.clients {
