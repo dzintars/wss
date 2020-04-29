@@ -27,6 +27,7 @@ type Kind int
 const (
   UI_LAUNCHER_DISPLAY Kind = iota
   UI_LAUNCHER_HIDE
+  THEME_SWITCH
   APPLICATION_GET
   APPLICATION_GET_SUCCESS
   ERROR
@@ -53,8 +54,15 @@ type UILauncherDisplayPayload struct {
 type UILauncherHidePayload struct {
 	Stakeholder string `json:"stakeholder,omitempty"`
 }
+
+// ThemeSwitch represents actual data payload carried by Event
+type ThemeSwitch struct {
+	Theme string `json:"theme,omitempty"`
+}
+
 // ApplicationGetPayload represents actual data payload carried by Event
 type ApplicationGetPayload struct {}
+
 // ApplicationGetSuccessPayload represents actual data payload carried by Event
 type ApplicationGetSuccessPayload *Applications
 
@@ -67,6 +75,7 @@ type ErrorPayload struct {
 var kindHandlers = map[Kind]func() interface{}{
 	UI_LAUNCHER_DISPLAY: func() interface{} { return &UILauncherDisplayPayload{} },
 	UI_LAUNCHER_HIDE: func() interface{} { return &UILauncherHidePayload{} },
+	THEME_SWITCH: func() interface{} { return &ThemeSwitch{} },
 	APPLICATION_GET: func() interface{} { return &ApplicationGetPayload{} },
 	// APPLICATION_GET_SUCCESS: func() interface{} { return &apps },
 	// ERROR: func() interface{} { return &ErrorPayload{} },
@@ -111,6 +120,8 @@ func (c *client) read() {
       fmt.Println(apps)
       c.channel.forward <- &evt
     case *UILauncherHidePayload:
+      c.channel.forward <- &evt
+    case *ThemeSwitch:
       c.channel.forward <- &evt
     case *ApplicationGetPayload:
       c.channel.forward <- &Event{

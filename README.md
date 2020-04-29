@@ -8,6 +8,10 @@ https://www.youtube.com/watch?v=norUcMSJRtQ
 
 https://exec64.co.uk/blog/websockets_with_redux/
 
+Important article for dynamic json unmarshalling
+https://eagain.net/articles/go-json-kind/ (saved locally)
+Still need to implement Methods instead of type switches.
+
 ## Todo
 
 - Rate limiting for messages, nickname changes, etc
@@ -45,5 +49,9 @@ Main target of this organization is to reduce network traffic and broadcast/rece
 ## Articles
 
 https://www.hascode.com/2016/10/writing-a-websocket-chat-in-go/comment-page-1/#comment-7064
+
+[Chat Rooms](https://github.com/gorilla/websocket/issues/46#issuecomment-227906715)
+
+[Go JSON unmarshaling based on an enumerated field value](https://eagain.net/articles/go-json-kind/)
 
 ## GitHub

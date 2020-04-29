@@ -11,6 +11,7 @@ var (
 	_KindNameToValue = map[string]Kind{
 		"UI_LAUNCHER_DISPLAY":     UI_LAUNCHER_DISPLAY,
 		"UI_LAUNCHER_HIDE":        UI_LAUNCHER_HIDE,
+		"THEME_SWITCH":            THEME_SWITCH,
 		"APPLICATION_GET":         APPLICATION_GET,
 		"APPLICATION_GET_SUCCESS": APPLICATION_GET_SUCCESS,
 		"ERROR":                   ERROR,
@@ -19,6 +20,7 @@ var (
 	_KindValueToName = map[Kind]string{
 		UI_LAUNCHER_DISPLAY:     "UI_LAUNCHER_DISPLAY",
 		UI_LAUNCHER_HIDE:        "UI_LAUNCHER_HIDE",
+		THEME_SWITCH:            "THEME_SWITCH",
 		APPLICATION_GET:         "APPLICATION_GET",
 		APPLICATION_GET_SUCCESS: "APPLICATION_GET_SUCCESS",
 		ERROR:                   "ERROR",
@@ -31,6 +33,7 @@ func init() {
 		_KindNameToValue = map[string]Kind{
 			interface{}(UI_LAUNCHER_DISPLAY).(fmt.Stringer).String():     UI_LAUNCHER_DISPLAY,
 			interface{}(UI_LAUNCHER_HIDE).(fmt.Stringer).String():        UI_LAUNCHER_HIDE,
+			interface{}(THEME_SWITCH).(fmt.Stringer).String():            THEME_SWITCH,
 			interface{}(APPLICATION_GET).(fmt.Stringer).String():         APPLICATION_GET,
 			interface{}(APPLICATION_GET_SUCCESS).(fmt.Stringer).String(): APPLICATION_GET_SUCCESS,
 			interface{}(ERROR).(fmt.Stringer).String():                   ERROR,
