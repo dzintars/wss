@@ -1,6 +1,8 @@
 # WebSockets
 
-My attempt to create Slack like Teams/Channels architecture.
+This should be and WSS API gateway for public or private channels.
+Ideally it should use some kind of procedure discovery to decide which RPC service to call based on inbound message type.
+Outbound messages should be handled by different service if possible by passing WSS connection ID in the context downstream.
 
 https://github.com/dzintars/srp/blob/76194cf379eafa3822ba88e3155fde55a6be8c66/clients/router/static/src/js/redux/actions/messages.js
 
@@ -12,21 +14,21 @@ Important article for dynamic json unmarshalling
 https://eagain.net/articles/go-json-kind/ (saved locally)
 Still need to implement Methods instead of type switches.
 
-## Todo
+## Todo/notes
 
 - Rate limiting for messages, nickname changes, etc
-- Organization (chatrooms)
-- Teams in organizations
+- Organization (chat rooms)
+- Teams per organizations
 
-If there is no session cookie, then we need to force user to sign in
+If there is no session cookie, then we need to redirect user to sign in.
 
-If there is an session cookie, then we just open an connection. Probably we need to track all user sessions because he could use multiple browser tabs or clients.
+If there is an session cookie, then we just open an connection (OR redirect to the private API). Probably we need to track all user sessions because he could use multiple browser tabs or clients.
 
-We shoul use gorilla secure cookie, because we can easy share encryption key accross servers.
+We should use gorilla secure cookie, because we can easy distribute encryption key across servers via Vault.
 
 We exchange pure actions over wss.
 
-If user are in Order view and there are no other users online in the same order view, then e dont need to create a "chat room" for that order. But as soon as
+If user are in Order view and there are no other users online in the same order view, then e don't need to create a "chat room" for that order. But as soon as
 second user enters the same view, we move booth users in the same connection group???
 
 User roles?
