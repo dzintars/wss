@@ -35,7 +35,7 @@ User roles?
 
 The Hub. What is the Hub? Do i really create a Hub for every single user?
 
-[GitHub Example WSS]()https://github.com/gorilla/websocket/tree/master/examples/chat)
+[GitHub Example WSS](https://github.com/gorilla/websocket/tree/master/examples/chat)
 
 Pool is an object holding all active Hubs.
 Every organization with at least one user online have it's own dedicated Hub in that Pool.

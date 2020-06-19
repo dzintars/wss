@@ -82,6 +82,7 @@ var kindHandlers = map[Kind]func() interface{}{
 }
 
 func (c *client) read() {
+
   defer c.socket.Close()
 
 	for {
