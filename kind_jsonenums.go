@@ -14,6 +14,8 @@ var (
 		"THEME_SWITCH":            THEME_SWITCH,
 		"APPLICATION_GET":         APPLICATION_GET,
 		"APPLICATION_GET_SUCCESS": APPLICATION_GET_SUCCESS,
+		"MODULE_GET":              MODULE_GET,
+		"MODULE_GET_SUCCESS":      MODULE_GET_SUCCESS,
 		"ERROR":                   ERROR,
 	}
 
@@ -23,6 +25,8 @@ var (
 		THEME_SWITCH:            "THEME_SWITCH",
 		APPLICATION_GET:         "APPLICATION_GET",
 		APPLICATION_GET_SUCCESS: "APPLICATION_GET_SUCCESS",
+		MODULE_GET:              "MODULE_GET",
+		MODULE_GET_SUCCESS:      "MODULE_GET_SUCCESS",
 		ERROR:                   "ERROR",
 	}
 )
@@ -36,6 +40,8 @@ func init() {
 			interface{}(THEME_SWITCH).(fmt.Stringer).String():            THEME_SWITCH,
 			interface{}(APPLICATION_GET).(fmt.Stringer).String():         APPLICATION_GET,
 			interface{}(APPLICATION_GET_SUCCESS).(fmt.Stringer).String(): APPLICATION_GET_SUCCESS,
+			interface{}(MODULE_GET).(fmt.Stringer).String():              MODULE_GET,
+			interface{}(MODULE_GET_SUCCESS).(fmt.Stringer).String():      MODULE_GET_SUCCESS,
 			interface{}(ERROR).(fmt.Stringer).String():                   ERROR,
 		}
 	}

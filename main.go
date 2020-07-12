@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	var addr = flag.String("addr", "9090", "The addr of the application.")
+	var addr = flag.String("a", "9090", "The addr of the application.")
 	flag.Parse() // parse the flags
 
 	c := newChannel()
@@ -23,4 +23,3 @@ func main() {
 		log.Fatal("ListenAndServe", err)
 	}
 }
-

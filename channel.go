@@ -24,16 +24,16 @@ func (c *channel) run() {
 		select {
 		case client := <-c.join:
 			// join - add client to the channel
-      c.clients[client] = true
-      // fmt.Println("Clients:", c.clients)
+			c.clients[client] = true
+			// fmt.Println("Clients:", c.clients)
 		case client := <-c.leave:
 			// leaving - remove client from the channel
-      delete(c.clients, client)
-      // close the channel
+			delete(c.clients, client)
+			// close the channel
 			close(client.send)
-      // fmt.Println("Clients:", c.clients)
-    case event := <-c.forward:
-      // send the event to the all clients in this channel
+			// fmt.Println("Clients:", c.clients)
+		case event := <-c.forward:
+			// send the event to the all clients in this channel
 			for client := range c.clients {
 				client.send <- event
 			}
@@ -47,7 +47,7 @@ const (
 )
 
 var upgrader = &websocket.Upgrader{
-  CheckOrigin: func(r *http.Request) bool { return true },
+	CheckOrigin:     func(r *http.Request) bool { return true },
 	ReadBufferSize:  socketBufferSize,
 	WriteBufferSize: socketBufferSize,
 }
@@ -59,12 +59,14 @@ func (c *channel) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	client := &client{
-		socket: socket,
-		send:   make(chan *Event, messageBufferSize),
-		channel:   c,
+		socket:  socket,
+		send:    make(chan *Event, messageBufferSize),
+		channel: c,
 	}
 	c.join <- client
 	defer func() { c.leave <- client }()
+	// Get real IP address behind proxy
+	// fmt.Println(req.Header.Get("X-Forwarded-For"))
 	go client.write()
 	client.read()
 }

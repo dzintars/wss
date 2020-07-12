@@ -6,10 +6,10 @@ https://github.com/dzintars/srp/blob/76194cf379eafa3822ba88e3155fde55a6be8c66/cl
 
 https://www.youtube.com/watch?v=norUcMSJRtQ
 
-https://exec64.co.uk/blog/websockets_with_redux/
+https://exec64.co.uk/blog/websockets_with_redux/ (saved in Library)
 
 Important article for dynamic json unmarshalling
-https://eagain.net/articles/go-json-kind/ (saved locally)
+https://eagain.net/articles/go-json-kind/ (saved in Library)
 Still need to implement Methods instead of type switches.
 
 ## Todo
@@ -17,16 +17,17 @@ Still need to implement Methods instead of type switches.
 - Rate limiting for messages, nickname changes, etc
 - Organization (chatrooms)
 - Teams in organizations
+- Methods instead of type switches
 
 If there is no session cookie, then we need to force user to sign in
 
 If there is an session cookie, then we just open an connection. Probably we need to track all user sessions because he could use multiple browser tabs or clients.
 
-We shoul use gorilla secure cookie, because we can easy share encryption key accross servers.
+We should use gorilla secure cookie, because we can easy share encryption key across servers.
 
 We exchange pure actions over wss.
 
-If user are in Order view and there are no other users online in the same order view, then e dont need to create a "chat room" for that order. But as soon as
+If user are in Order view and there are no other users online in the same order view, then e don't need to create a "chat room" for that order. But as soon as
 second user enters the same view, we move booth users in the same connection group???
 
 User roles?
@@ -55,3 +56,7 @@ https://www.hascode.com/2016/10/writing-a-websocket-chat-in-go/comment-page-1/#c
 [Go JSON unmarshaling based on an enumerated field value](https://eagain.net/articles/go-json-kind/)
 
 ## GitHub
+
+## Use
+
+`go run *.go -addr :9090`
