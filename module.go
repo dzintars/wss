@@ -50,6 +50,10 @@ var modules Modules = Modules{
 			ID:    "43b2919d-8221-4e9d-91a8-97a633cbb48e",
 			Title: "Parcels",
 		},
+		"20e60e8c-f86a-4522-855c-0e08f2c3bc58": {
+			ID:    "20e60e8c-f86a-4522-855c-0e08f2c3bc58",
+			Title: "Accounts",
+		},
 	},
 	IDs: []string{
 		"9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4",
@@ -61,5 +65,6 @@ var modules Modules = Modules{
 		"626d3414-08ef-4274-a2bb-77633834d93e",
 		"755931c0-94d0-4625-8cc9-5b9e2baaa2f0",
 		"43b2919d-8221-4e9d-91a8-97a633cbb48e",
+		"20e60e8c-f86a-4522-855c-0e08f2c3bc58",
 	},
 }
