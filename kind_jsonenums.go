@@ -17,6 +17,7 @@ var (
 		"MODULE_GET":              MODULE_GET,
 		"MODULE_GET_SUCCESS":      MODULE_GET_SUCCESS,
 		"ERROR":                   ERROR,
+		"APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST": APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST,
 	}
 
 	_KindValueToName = map[Kind]string{
@@ -28,6 +29,7 @@ var (
 		MODULE_GET:              "MODULE_GET",
 		MODULE_GET_SUCCESS:      "MODULE_GET_SUCCESS",
 		ERROR:                   "ERROR",
+		APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST: "APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST",
 	}
 )
 
@@ -35,14 +37,15 @@ func init() {
 	var v Kind
 	if _, ok := interface{}(v).(fmt.Stringer); ok {
 		_KindNameToValue = map[string]Kind{
-			interface{}(UI_LAUNCHER_DISPLAY).(fmt.Stringer).String():     UI_LAUNCHER_DISPLAY,
-			interface{}(UI_LAUNCHER_HIDE).(fmt.Stringer).String():        UI_LAUNCHER_HIDE,
-			interface{}(THEME_SWITCH).(fmt.Stringer).String():            THEME_SWITCH,
-			interface{}(APPLICATION_GET).(fmt.Stringer).String():         APPLICATION_GET,
-			interface{}(APPLICATION_GET_SUCCESS).(fmt.Stringer).String(): APPLICATION_GET_SUCCESS,
-			interface{}(MODULE_GET).(fmt.Stringer).String():              MODULE_GET,
-			interface{}(MODULE_GET_SUCCESS).(fmt.Stringer).String():      MODULE_GET_SUCCESS,
-			interface{}(ERROR).(fmt.Stringer).String():                   ERROR,
+			interface{}(UI_LAUNCHER_DISPLAY).(fmt.Stringer).String():                        UI_LAUNCHER_DISPLAY,
+			interface{}(UI_LAUNCHER_HIDE).(fmt.Stringer).String():                           UI_LAUNCHER_HIDE,
+			interface{}(THEME_SWITCH).(fmt.Stringer).String():                               THEME_SWITCH,
+			interface{}(APPLICATION_GET).(fmt.Stringer).String():                            APPLICATION_GET,
+			interface{}(APPLICATION_GET_SUCCESS).(fmt.Stringer).String():                    APPLICATION_GET_SUCCESS,
+			interface{}(MODULE_GET).(fmt.Stringer).String():                                 MODULE_GET,
+			interface{}(MODULE_GET_SUCCESS).(fmt.Stringer).String():                         MODULE_GET_SUCCESS,
+			interface{}(ERROR).(fmt.Stringer).String():                                      ERROR,
+			interface{}(APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST).(fmt.Stringer).String(): APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST,
 		}
 	}
 }

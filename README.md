@@ -59,4 +59,6 @@ https://www.hascode.com/2016/10/writing-a-websocket-chat-in-go/comment-page-1/#c
 
 ## Use
 
-`go run *.go -addr :9090`
+`go generate` to generate jsonenums
+
+`go run *.go -addr :9090` to run the server

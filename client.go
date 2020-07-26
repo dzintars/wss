@@ -36,6 +36,7 @@ const (
 	MODULE_GET
 	MODULE_GET_SUCCESS
 	ERROR
+	APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST
 )
 
 // Event represents an event container to be exchanged between parties
@@ -43,7 +44,7 @@ type Event struct {
 	// Type represents an action type
 	Type Kind `json:"type"` // ISSUE: https://github.com/campoy/jsonenums/issues/28#issue-299906485
 	// User represents mandatory field required for all events exchanged
-	User string `json:"user,omitempty"`
+	// User string `json:"user,omitempty"`
 	// Payload holds actual Event data
 	Payload interface{} `json:"payload,omitempty"`
 }
@@ -75,6 +76,9 @@ type ModuleGetPayload struct{}
 // ModuleGetSuccessPayload represents actual data payload carried by Event
 type ModuleGetSuccessPayload *Modules
 
+// AppNavigationListFetchModulesPayload represents actual data payload carried by Event
+type AppNavigationListFetchModulesPayload struct{}
+
 // ErrorPayload represents actual data payload carried by Event
 type ErrorPayload struct {
 	Message string `json:"message,omitempty"`
@@ -89,6 +93,7 @@ var kindHandlers = map[Kind]func() interface{}{
 	// APPLICATION_GET_SUCCESS: func() interface{} { return &apps },
 	MODULE_GET: func() interface{} { return &ModuleGetPayload{} },
 	// ERROR: func() interface{} { return &ErrorPayload{} },
+	APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST: func() interface{} { return &AppNavigationListFetchModulesPayload{} },
 }
 
 func (c *client) read() {
