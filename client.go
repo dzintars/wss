@@ -37,6 +37,7 @@ const (
 	MODULE_GET_SUCCESS
 	ERROR
 	APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST
+	APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS
 )
 
 // Event represents an event container to be exchanged between parties
@@ -147,6 +148,11 @@ func (c *client) read() {
 		case *ModuleGetPayload:
 			c.channel.forward <- &Event{
 				Type:    MODULE_GET_SUCCESS,
+				Payload: &modules,
+			}
+		case *AppNavigationListFetchModulesPayload:
+			c.channel.forward <- &Event{
+				Type:    APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS,
 				Payload: &modules,
 			}
 		}
