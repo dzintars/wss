@@ -13,6 +13,25 @@ type Modules struct {
 	IDs      []string          `json:"ids,omitempty"`
 }
 
+func (m Modules) getModuleByID(id string) Module {
+	// fmt.Println("Module:", m.Entities[id])
+	return m.Entities[id]
+}
+
+// GetAppModules returns list of the modules for a given app ID
+func (m Modules) GetAppModules(appid string) *Modules {
+	entities := make(map[string]Module)
+	ids := Apps.getAppModuleIDs(appid)
+	modules := &Modules{
+		Entities: entities,
+		IDs:      ids,
+	}
+	for _, v := range Apps.getAppModuleIDs(appid) {
+		entities[v] = m.getModuleByID(v)
+	}
+	return modules
+}
+
 var modules Modules = Modules{
 	Entities: map[string]Module{
 		"9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4": {

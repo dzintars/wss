@@ -31,13 +31,15 @@ const (
 	UI_LAUNCHER_DISPLAY Kind = iota
 	UI_LAUNCHER_HIDE
 	THEME_SWITCH
-	APPLICATION_GET
-	APPLICATION_GET_SUCCESS
+	APPLICATION__GET
+	APPLICATION__GET_SUCCESS
 	MODULE_GET
 	MODULE_GET_SUCCESS
-	ERROR
+	WEBSOCKET__ERROR
 	APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST
 	APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS
+	APP_NAVIGATION__LIST_MODULES_REQUEST
+	APP_NAVIGATION__LIST_MODULES_RESPONSE
 )
 
 // Event represents an event container to be exchanged between parties
@@ -80,21 +82,27 @@ type ModuleGetSuccessPayload *Modules
 // AppNavigationListFetchModulesPayload represents actual data payload carried by Event
 type AppNavigationListFetchModulesPayload struct{}
 
+// AppNavigationListModulesPayload represents actual data payload carried by Event
+type AppNavigationListModulesPayload struct {
+	ID string `json:"id,omitempty"`
+}
+
 // ErrorPayload represents actual data payload carried by Event
 type ErrorPayload struct {
-	Message string `json:"message,omitempty"`
 	Error   string `json:"error,omitempty"`
+	Message string `json:"message,omitempty"`
 }
 
 var kindHandlers = map[Kind]func() interface{}{
 	UI_LAUNCHER_DISPLAY: func() interface{} { return &UILauncherDisplayPayload{} },
 	UI_LAUNCHER_HIDE:    func() interface{} { return &UILauncherHidePayload{} },
 	THEME_SWITCH:        func() interface{} { return &ThemeSwitch{} },
-	APPLICATION_GET:     func() interface{} { return &ApplicationGetPayload{} },
+	APPLICATION__GET:    func() interface{} { return &ApplicationGetPayload{} },
 	// APPLICATION_GET_SUCCESS: func() interface{} { return &apps },
 	MODULE_GET: func() interface{} { return &ModuleGetPayload{} },
 	// ERROR: func() interface{} { return &ErrorPayload{} },
 	APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST: func() interface{} { return &AppNavigationListFetchModulesPayload{} },
+	APP_NAVIGATION__LIST_MODULES_REQUEST:       func() interface{} { return &AppNavigationListModulesPayload{} },
 }
 
 func (c *client) read() {
@@ -121,7 +129,7 @@ func (c *client) read() {
 		if err := json.Unmarshal(raw, m); err != nil {
 			// TODO: Reply with error message if receive unhandled message type
 			e := Event{
-				Type: ERROR,
+				Type: WEBSOCKET__ERROR,
 				Payload: &ErrorPayload{
 					Message: "Unsupported action signature",
 					// TODO: Should not send server side errors to the client (debug only)
@@ -140,8 +148,8 @@ func (c *client) read() {
 			c.channel.forward <- &evt
 		case *ApplicationGetPayload:
 			c.channel.forward <- &Event{
-				Type:    APPLICATION_GET_SUCCESS,
-				Payload: &apps,
+				Type:    APPLICATION__GET_SUCCESS,
+				Payload: &Apps,
 			}
 		case *ApplicationGetSuccessPayload:
 			c.channel.forward <- &evt
@@ -154,6 +162,11 @@ func (c *client) read() {
 			c.channel.forward <- &Event{
 				Type:    APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS,
 				Payload: &modules,
+			}
+		case *AppNavigationListModulesPayload:
+			c.channel.forward <- &Event{
+				Type:    APP_NAVIGATION__LIST_MODULES_RESPONSE,
+				Payload: modules.GetAppModules("54789c07-bb43-4db4-8b2d-1a8e1f8c67f1"),
 			}
 		}
 	}

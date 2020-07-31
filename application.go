@@ -6,11 +6,13 @@ package main
 
 // Application ...
 type Application struct {
-	ID        string   `json:"id,omitempty"`
-	Title     string   `json:"title,omitempty"`
-	Component string   `json:"component,omitempty"`
-	Permalink string   `json:"permalink,omitempty"`
-	Modules   []string `json:"modules,omitempty"`
+	ID            string   `json:"id,omitempty"`
+	Title         string   `json:"title,omitempty"`
+	Component     string   `json:"component,omitempty"`
+	Permalink     string   `json:"permalink,omitempty"`
+	Modules       []string `json:"modules,omitempty"`
+	DefaultModule string   `json:"defaultModule,omitempty"`
+	LastModule    string   `json:"lastModule,omitempty"`
 }
 
 // Applications ...
@@ -19,20 +21,29 @@ type Applications struct {
 	IDs      []string               `json:"ids,omitempty"`
 }
 
-var apps Applications = Applications{
+func (a Applications) getAppModuleIDs(id string) []string {
+	// fmt.Println("AppModules:", a.Entities[id].Modules)
+	return a.Entities[id].Modules
+}
+
+var Apps Applications = Applications{
 	Entities: map[string]Application{
 		"9a30119-d673-4978-b393-f608fe28ae07": {
-			ID:        "9a30119-d673-4978-b393-f608fe28ae07",
-			Title:     "Home",
-			Component: "app-home",
-			Permalink: "/",
-			Modules:   []string{},
+			ID:            "9a30119-d673-4978-b393-f608fe28ae07",
+			Title:         "Home",
+			Component:     "app-home",
+			Permalink:     "/",
+			Modules:       []string{},
+			DefaultModule: "",
+			LastModule:    "",
 		},
 		"54789c07-bb43-4db4-8b2d-1a8e1f8c67f1": {
-			ID:        "54789c07-bb43-4db4-8b2d-1a8e1f8c67f1",
-			Title:     "Dispatch",
-			Component: "app-users",
-			Permalink: "/dispatch",
+			ID:            "54789c07-bb43-4db4-8b2d-1a8e1f8c67f1",
+			Title:         "Dispatch",
+			Component:     "app-users",
+			Permalink:     "/dispatch",
+			DefaultModule: "9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4",
+			LastModule:    "",
 			Modules: []string{
 				"9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4",
 				"502d3926-63a6-4cd5-a18d-01dfa6c64454",
@@ -44,28 +55,34 @@ var apps Applications = Applications{
 			},
 		},
 		"c178025e-a209-4c50-8c34-36d35f36494c": {
-			ID:        "c178025e-a209-4c50-8c34-36d35f36494c",
-			Title:     "Sales",
-			Component: "app-users",
-			Permalink: "/sales",
+			ID:            "c178025e-a209-4c50-8c34-36d35f36494c",
+			Title:         "Sales",
+			Component:     "app-users",
+			Permalink:     "/sales",
+			DefaultModule: "12eb993e-3c0d-4c8a-b517-313b1225363f",
+			LastModule:    "",
 			Modules: []string{
 				"12eb993e-3c0d-4c8a-b517-313b1225363f",
 			},
 		},
 		"437642dd-7d74-4213-af76-b51fc24eff0": {
-			ID:        "437642dd-7d74-4213-af76-b51fc24eff0",
-			Title:     "Accounting",
-			Component: "app-users",
-			Permalink: "accounting",
+			ID:            "437642dd-7d74-4213-af76-b51fc24eff0",
+			Title:         "Accounting",
+			Component:     "app-users",
+			Permalink:     "accounting",
+			DefaultModule: "7f7d075b-fb9f-46dc-b668-e561a753daed",
+			LastModule:    "",
 			Modules: []string{
 				"7f7d075b-fb9f-46dc-b668-e561a753daed",
 			},
 		},
 		"5a2192a0-0051-46a1-85e7-17245ba24f55": {
-			ID:        "5a2192a0-0051-46a1-85e7-17245ba24f55",
-			Title:     "Settings",
-			Component: "app-signin",
-			Permalink: "/settings",
+			ID:            "5a2192a0-0051-46a1-85e7-17245ba24f55",
+			Title:         "Settings",
+			Component:     "app-signin",
+			Permalink:     "/settings",
+			DefaultModule: "20e60e8c-f86a-4522-855c-0e08f2c3bc58",
+			LastModule:    "",
 			Modules: []string{
 				"20e60e8c-f86a-4522-855c-0e08f2c3bc58",
 			},

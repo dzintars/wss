@@ -9,29 +9,33 @@ import (
 
 var (
 	_KindNameToValue = map[string]Kind{
-		"UI_LAUNCHER_DISPLAY":     UI_LAUNCHER_DISPLAY,
-		"UI_LAUNCHER_HIDE":        UI_LAUNCHER_HIDE,
-		"THEME_SWITCH":            THEME_SWITCH,
-		"APPLICATION_GET":         APPLICATION_GET,
-		"APPLICATION_GET_SUCCESS": APPLICATION_GET_SUCCESS,
-		"MODULE_GET":              MODULE_GET,
-		"MODULE_GET_SUCCESS":      MODULE_GET_SUCCESS,
-		"ERROR":                   ERROR,
+		"UI_LAUNCHER_DISPLAY":                        UI_LAUNCHER_DISPLAY,
+		"UI_LAUNCHER_HIDE":                           UI_LAUNCHER_HIDE,
+		"THEME_SWITCH":                               THEME_SWITCH,
+		"APPLICATION__GET":                           APPLICATION__GET,
+		"APPLICATION__GET_SUCCESS":                   APPLICATION__GET_SUCCESS,
+		"MODULE_GET":                                 MODULE_GET,
+		"MODULE_GET_SUCCESS":                         MODULE_GET_SUCCESS,
+		"WEBSOCKET__ERROR":                           WEBSOCKET__ERROR,
 		"APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST": APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST,
 		"APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS": APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS,
+		"APP_NAVIGATION__LIST_MODULES_REQUEST":       APP_NAVIGATION__LIST_MODULES_REQUEST,
+		"APP_NAVIGATION__LIST_MODULES_RESPONSE":      APP_NAVIGATION__LIST_MODULES_RESPONSE,
 	}
 
 	_KindValueToName = map[Kind]string{
-		UI_LAUNCHER_DISPLAY:     "UI_LAUNCHER_DISPLAY",
-		UI_LAUNCHER_HIDE:        "UI_LAUNCHER_HIDE",
-		THEME_SWITCH:            "THEME_SWITCH",
-		APPLICATION_GET:         "APPLICATION_GET",
-		APPLICATION_GET_SUCCESS: "APPLICATION_GET_SUCCESS",
-		MODULE_GET:              "MODULE_GET",
-		MODULE_GET_SUCCESS:      "MODULE_GET_SUCCESS",
-		ERROR:                   "ERROR",
+		UI_LAUNCHER_DISPLAY:      "UI_LAUNCHER_DISPLAY",
+		UI_LAUNCHER_HIDE:         "UI_LAUNCHER_HIDE",
+		THEME_SWITCH:             "THEME_SWITCH",
+		APPLICATION__GET:         "APPLICATION__GET",
+		APPLICATION__GET_SUCCESS: "APPLICATION__GET_SUCCESS",
+		MODULE_GET:               "MODULE_GET",
+		MODULE_GET_SUCCESS:       "MODULE_GET_SUCCESS",
+		WEBSOCKET__ERROR:         "WEBSOCKET__ERROR",
 		APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST: "APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST",
 		APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS: "APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS",
+		APP_NAVIGATION__LIST_MODULES_REQUEST:       "APP_NAVIGATION__LIST_MODULES_REQUEST",
+		APP_NAVIGATION__LIST_MODULES_RESPONSE:      "APP_NAVIGATION__LIST_MODULES_RESPONSE",
 	}
 )
 
@@ -42,13 +46,15 @@ func init() {
 			interface{}(UI_LAUNCHER_DISPLAY).(fmt.Stringer).String():                        UI_LAUNCHER_DISPLAY,
 			interface{}(UI_LAUNCHER_HIDE).(fmt.Stringer).String():                           UI_LAUNCHER_HIDE,
 			interface{}(THEME_SWITCH).(fmt.Stringer).String():                               THEME_SWITCH,
-			interface{}(APPLICATION_GET).(fmt.Stringer).String():                            APPLICATION_GET,
-			interface{}(APPLICATION_GET_SUCCESS).(fmt.Stringer).String():                    APPLICATION_GET_SUCCESS,
+			interface{}(APPLICATION__GET).(fmt.Stringer).String():                           APPLICATION__GET,
+			interface{}(APPLICATION__GET_SUCCESS).(fmt.Stringer).String():                   APPLICATION__GET_SUCCESS,
 			interface{}(MODULE_GET).(fmt.Stringer).String():                                 MODULE_GET,
 			interface{}(MODULE_GET_SUCCESS).(fmt.Stringer).String():                         MODULE_GET_SUCCESS,
-			interface{}(ERROR).(fmt.Stringer).String():                                      ERROR,
+			interface{}(WEBSOCKET__ERROR).(fmt.Stringer).String():                           WEBSOCKET__ERROR,
 			interface{}(APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST).(fmt.Stringer).String(): APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST,
 			interface{}(APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS).(fmt.Stringer).String(): APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS,
+			interface{}(APP_NAVIGATION__LIST_MODULES_REQUEST).(fmt.Stringer).String():       APP_NAVIGATION__LIST_MODULES_REQUEST,
+			interface{}(APP_NAVIGATION__LIST_MODULES_RESPONSE).(fmt.Stringer).String():      APP_NAVIGATION__LIST_MODULES_RESPONSE,
 		}
 	}
 }
