@@ -26,21 +26,25 @@ func (a Applications) getAppModuleIDs(id string) []string {
 	return a.Entities[id].Modules
 }
 
+// Apps represents the list of system applications
 var Apps Applications = Applications{
 	Entities: map[string]Application{
 		"9a30119-d673-4978-b393-f608fe28ae07": {
 			ID:            "9a30119-d673-4978-b393-f608fe28ae07",
 			Title:         "Home",
-			Component:     "app-home",
+			Component:     "view-home",
 			Permalink:     "/",
-			Modules:       []string{},
-			DefaultModule: "",
+			DefaultModule: "19f59e93-111f-4073-a35b-ebe503444f69",
 			LastModule:    "",
+			Modules: []string{
+				"19f59e93-111f-4073-a35b-ebe503444f69",
+				"b782042d-51e3-43a6-8e34-5c9775640586",
+			},
 		},
 		"54789c07-bb43-4db4-8b2d-1a8e1f8c67f1": {
 			ID:            "54789c07-bb43-4db4-8b2d-1a8e1f8c67f1",
 			Title:         "Dispatch",
-			Component:     "app-users",
+			Component:     "view-dispatch",
 			Permalink:     "/dispatch",
 			DefaultModule: "9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4",
 			LastModule:    "",
@@ -57,7 +61,7 @@ var Apps Applications = Applications{
 		"c178025e-a209-4c50-8c34-36d35f36494c": {
 			ID:            "c178025e-a209-4c50-8c34-36d35f36494c",
 			Title:         "Sales",
-			Component:     "app-users",
+			Component:     "view-sales",
 			Permalink:     "/sales",
 			DefaultModule: "12eb993e-3c0d-4c8a-b517-313b1225363f",
 			LastModule:    "",

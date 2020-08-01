@@ -21,19 +21,29 @@ func (m Modules) getModuleByID(id string) Module {
 // GetAppModules returns list of the modules for a given app ID
 func (m Modules) GetAppModules(appid string) *Modules {
 	entities := make(map[string]Module)
+	for _, v := range Apps.getAppModuleIDs(appid) {
+		entities[v] = m.getModuleByID(v)
+	}
 	ids := Apps.getAppModuleIDs(appid)
 	modules := &Modules{
 		Entities: entities,
 		IDs:      ids,
-	}
-	for _, v := range Apps.getAppModuleIDs(appid) {
-		entities[v] = m.getModuleByID(v)
 	}
 	return modules
 }
 
 var modules Modules = Modules{
 	Entities: map[string]Module{
+		"19f59e93-111f-4073-a35b-ebe503444f69": {
+			ID:        "19f59e93-111f-4073-a35b-ebe503444f69",
+			Title:     "Home",
+			Permalink: "/",
+		},
+		"b782042d-51e3-43a6-8e34-5c9775640586": {
+			ID:        "b782042d-51e3-43a6-8e34-5c9775640586",
+			Title:     "Help",
+			Permalink: "help",
+		},
 		"9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4": {
 			ID:        "9a84c3f2-c84b-4e44-b2b5-3ad9fa1840e4",
 			Title:     "Zones",
@@ -96,5 +106,7 @@ var modules Modules = Modules{
 		"755931c0-94d0-4625-8cc9-5b9e2baaa2f0",
 		"43b2919d-8221-4e9d-91a8-97a633cbb48e",
 		"20e60e8c-f86a-4522-855c-0e08f2c3bc58",
+		"19f59e93-111f-4073-a35b-ebe503444f69",
+		"b782042d-51e3-43a6-8e34-5c9775640586",
 	},
 }

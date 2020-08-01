@@ -166,6 +166,8 @@ func (c *client) read() {
 				Payload: &modules,
 			}
 		case *AppNavigationListModulesRequestPayload:
+			// https://blog.golang.org/json
+			// TODO: Use protobuf stubs for message declarations
 			type Msg struct {
 				Type    Kind `json:"type"`
 				Payload struct {
