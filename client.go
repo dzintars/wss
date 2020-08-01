@@ -82,8 +82,8 @@ type ModuleGetSuccessPayload *Modules
 // AppNavigationListFetchModulesPayload represents actual data payload carried by Event
 type AppNavigationListFetchModulesPayload struct{}
 
-// AppNavigationListModulesPayload represents actual data payload carried by Event
-type AppNavigationListModulesPayload struct {
+// AppNavigationListModulesRequestPayload represents actual data payload carried by Event
+type AppNavigationListModulesRequestPayload struct {
 	ID string `json:"id,omitempty"`
 }
 
@@ -102,7 +102,7 @@ var kindHandlers = map[Kind]func() interface{}{
 	MODULE_GET: func() interface{} { return &ModuleGetPayload{} },
 	// ERROR: func() interface{} { return &ErrorPayload{} },
 	APP_NAVIGATION__LIST_FETCH_MODULES_REQUEST: func() interface{} { return &AppNavigationListFetchModulesPayload{} },
-	APP_NAVIGATION__LIST_MODULES_REQUEST:       func() interface{} { return &AppNavigationListModulesPayload{} },
+	APP_NAVIGATION__LIST_MODULES_REQUEST:       func() interface{} { return &AppNavigationListModulesRequestPayload{} },
 }
 
 func (c *client) read() {
@@ -124,6 +124,8 @@ func (c *client) read() {
 		if err := json.Unmarshal([]byte(msg), &evt); err != nil {
 			log.Fatal("Event:", err, msg)
 		}
+		// str := fmt.Sprintf("%v", evt.Payload)
+		// fmt.Println("Evt:", reflect.TypeOf(str))
 
 		m := kindHandlers[evt.Type]()
 		if err := json.Unmarshal(raw, m); err != nil {
@@ -163,10 +165,21 @@ func (c *client) read() {
 				Type:    APP_NAVIGATION__LIST_FETCH_MODULES_SUCCESS,
 				Payload: &modules,
 			}
-		case *AppNavigationListModulesPayload:
+		case *AppNavigationListModulesRequestPayload:
+			type Msg struct {
+				Type    Kind `json:"type"`
+				Payload struct {
+					ID string `json:"id,omitempty"`
+				} `json:"payload,omitempty"`
+			}
+			var ms Msg
+			if err := json.Unmarshal([]byte(msg), &ms); err != nil {
+				log.Fatal("Event:", err, msg)
+			}
+			// fmt.Println("Type:", ms.Payload.ID)
 			c.channel.forward <- &Event{
 				Type:    APP_NAVIGATION__LIST_MODULES_RESPONSE,
-				Payload: modules.GetAppModules("54789c07-bb43-4db4-8b2d-1a8e1f8c67f1"),
+				Payload: modules.GetAppModules(ms.Payload.ID),
 			}
 		}
 	}
