@@ -21,13 +21,17 @@ type Applications struct {
 	IDs      []string               `json:"ids,omitempty"`
 }
 
+func (a Applications) getApplications() Applications {
+	return a
+}
+
 func (a Applications) getAppModuleIDs(id string) []string {
 	// fmt.Println("AppModules:", a.Entities[id].Modules)
 	return a.Entities[id].Modules
 }
 
 // Apps represents the list of system applications
-var Apps Applications = Applications{
+var applications Applications = Applications{
 	Entities: map[string]Application{
 		"9a30119-d673-4978-b393-f608fe28ae07": {
 			ID:            "9a30119-d673-4978-b393-f608fe28ae07",

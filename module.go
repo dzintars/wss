@@ -19,12 +19,12 @@ func (m Modules) getModuleByID(id string) Module {
 }
 
 // GetAppModules returns list of the modules for a given app ID
-func (m Modules) GetAppModules(appid string) *Modules {
+func (m Modules) GetAppModules(ID string) *Modules {
 	entities := make(map[string]Module)
-	for _, v := range Apps.getAppModuleIDs(appid) {
+	for _, v := range applications.getAppModuleIDs(ID) {
 		entities[v] = m.getModuleByID(v)
 	}
-	ids := Apps.getAppModuleIDs(appid)
+	ids := applications.getAppModuleIDs(ID)
 	modules := &Modules{
 		Entities: entities,
 		IDs:      ids,

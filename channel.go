@@ -10,7 +10,7 @@ import (
 type channel struct {
 	// forward is a channel that holds incoming messages
 	// that should be forwarded to the other clients.
-	forward chan *Event
+	forward chan *Envelope
 	// join is a channel for clients wishing to join the channel.
 	join chan *client
 	// leave is a channel for clients wishing to leave the channel.
@@ -60,7 +60,7 @@ func (c *channel) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 	client := &client{
 		socket:  socket,
-		send:    make(chan *Event, messageBufferSize),
+		send:    make(chan *Envelope, messageBufferSize),
 		channel: c,
 	}
 	c.join <- client
@@ -74,7 +74,7 @@ func (c *channel) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 // newChannel makes a new channel
 func newChannel() *channel {
 	return &channel{
-		forward: make(chan *Event),
+		forward: make(chan *Envelope),
 		join:    make(chan *client),
 		leave:   make(chan *client),
 		clients: make(map[*client]bool),
