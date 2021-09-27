@@ -19,8 +19,8 @@ func main() {
 	// fmt.Println("Data:", modules.GetAppModules("54789c07-bb43-4db4-8b2d-1a8e1f8c67f1"))
 
 	// start the web server
-	log.Println("Starting web server on", *addr)
-	if err := http.ListenAndServe(*addr, nil); err != nil {
+	log.Println("Starting web server on port", *addr)
+	if err := http.ListenAndServe(":"+*addr, nil); err != nil {
 		log.Fatal("ListenAndServe", err)
 	}
 }

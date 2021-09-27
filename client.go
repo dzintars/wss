@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/gorilla/websocket"
-	v1 "github.com/oswee/api/oswee/module/stubs/v1"
 )
 
 // https://play.google.com/books/reader?id=Er0pIQAAAEAJ&pg=GBS.PA641
@@ -126,7 +125,7 @@ var rpcHandlers = map[RPC]func() interface{}{
 	// APP_NAVIGATION__LIST_MODULES_REQUEST:       func() interface{} { return &AppNavigationListModulesRequestPayload{} },
 	// APPLICATION__LIST_APPLICATIONS_REQUEST:     func() interface{} { return &ApplicationListApplicationsRequestPayload{} },
 	ListApplicationsRequest: func() interface{} { return &ListApplicationsRequestPayload{} },
-	ListModulesRequest:      func() interface{} { return *v1.ListModulesResponse{} },
+	ListModulesRequest:      func() interface{} { return &ListModulesRequestPayload{} },
 }
 
 func (c *client) read() {
